@@ -1,4 +1,4 @@
-Neibourhood Map project
+Neighbourhood Map project
 
 ## This web app does.. 
 - Show the city scores, using API by [Teleport](https://teleport.org/about-us/)
