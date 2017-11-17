@@ -1,3 +1,4 @@
+![sample image](sample-image.png)
 This is a Neighbourhood Map project at NDFS which shows city scores, using API by [Teleport](https://teleport.org/about-us/).
 
 ## File structure
