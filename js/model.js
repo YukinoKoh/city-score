@@ -1,34 +1,125 @@
-var Model = Model || {};
-
-Model = [
+var cityList = [
   {
     name: 'London',
-    data: [],
     lat: 51.507351,
-    lng: -0.127758 
-  },
-  {
+    lng: -0.127758
+  },{
     name: 'Berlin',
-    data: [],
     lat: 52.520007,
-    lng: 13.404954
-  },
-  {
+    lng: 13.404954,
+  },{
     name: 'Paris',
-    data: [],
     lat: 48.856614,
-    lng: 2.352222
-  },
-  {
+    lng: 2.352222,
+  },{
     name: 'Luxembourg',
-    data: [],
     lat: 49.815273,
-    lng: 6.129583
-  },
-  {
+    lng: 6.129583,
+  },{
     name: 'Frankfurt',
-    data: [],
     lat: 50.110922,
-    lng: 8.682127
+    lng: 8.682127,
   }
 ]
+
+var markers = markers || [];
+var cityModel = [];
+
+var viewModel = {
+  assignModel: function(){
+    for (var i=0; i<cityList.length; i++){
+      cityModel.push({
+        id: i,
+        name: cityList[i].name, 
+        lat: cityList[i].lat,
+        lng: cityList[i].lng,
+        housing: ko.observable(0),
+        education: ko.observable(0),
+        showCity: ko.observable(true),
+        showInfo: ko.observable(false),
+        clickCity: function() {
+          viewModel.selectCity(this.name);
+        }
+      });
+    }
+  },
+  deleteInfo: function(){
+    for (var i=0; i<cityModel.length; i++){
+      cityModel[i].showInfo(false);
+    }
+    return true;
+  },
+  getByName: function(name){
+    // name converted to lowercase before calling this function
+    for (var i=0; i<cityModel.length; i++){
+      if (cityModel[i].name.toLowerCase() == name){
+        return cityModel[i];
+      }
+    }
+  },
+  getAll: function(){
+    return cityModel;
+  },
+  selectCity: function(name){
+    var city_name = name.toLowerCase();
+    this.deleteInfo();
+    var city = this.getByName(city_name);
+    change_marker(city.name);
+    city.showInfo(true);
+  },
+  updateAllData: function(){
+    for (var i=0; i<cityModel.length; i++){
+      city_name = cityModel[i].name.toLowerCase();
+      this.updateData(city_name);
+    }
+    return true;
+  },
+  updateData: function(city_name){
+    var teleportUrl = 'https://api.teleport.org/api/urban_areas/slug:'+city_name+'/scores/';
+    var city = this.getByName(city_name);
+    var success = false
+    var items = [];
+    var jsonq = $.getJSON( teleportUrl, function( data ) {
+      score_list = data.categories;
+      for (var i=0; i < score_list.length; i++){
+        items.push({ 
+          key: score_list[i]['name'],
+          val: score_list[i]['score_out_of_10']
+        });
+        if (score_list[i]['name'] == 'Housing'){
+          city.housing(score_list[i]['score_out_of_10']);
+        }
+        if (score_list[i]['name'] == 'Education'){
+          city.education(score_list[i]['score_out_of_10']);
+        }
+      }
+    }).done(function() {
+      //city.push(items);
+      city.score = items;
+      return true;
+    }).fail(function() {
+      console.log( "error" );
+      return false;
+    });
+  },
+  show: function(city_name){
+    city_name = city_name.toLowerCase();
+    var city = this.getByName(city_name);
+    city.showCity(true);
+  },
+  hide: function(city_name){
+    city_name = city_name.toLowerCase();
+    var city = this.getByName(city_name);
+    city.showCity(false);
+  }
+}
+  function change_marker(city_name){
+    for (var i=0; i<markers.length; i++){
+      if (markers[i].title != city_name){
+        markers[i].setIcon('img/marker1.svg');
+      }else{
+        markers[i].setIcon('img/marker2.svg');
+      }
+    }
+  }
+

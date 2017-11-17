@@ -1,14 +1,15 @@
+var cityModel = cityModel || {};
+var viewModel = viewModel || {};
+var view = view || {};
+
 $(function(){
-  View.map();
-  View.set_all();
-  VM.update_data_all();
-  ko.applyBindings(Model);
+  viewModel.assignModel();
+  viewModel.updateAllData();
+  ko.applyBindings(cityModel);
+  view.map();
+  view.setAll()
 });
 
-var Model = Model || {};
-var View = View || {};
-var map;
-var C = {};
 
 
 
