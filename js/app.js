@@ -7,7 +7,7 @@ $(function(){
   viewModel.updateAllData();
   ko.applyBindings(cityModel);
   view.map();
-  view.setAll()
+  view.setAll();
 });
 
 
