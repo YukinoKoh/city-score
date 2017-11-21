@@ -35,3 +35,6 @@ li.cities-list {
 .i-score {
   font-size: 28px;
   margin: 10px 10px; }
+
+.error {
+  color: #FD403E; }

@@ -22,6 +22,15 @@ var cityList = [
   }
 ]
 
+var headerError = {
+  eHeader: ko.observable(''),
+  eMap: ko.observable('')
+}
+var filterCity ={ 
+  fCity: ko.observable(''),
+  error: ko.observable('')
+}
+
 var markers = markers || [];
 var cityModel = [];
 
@@ -79,6 +88,7 @@ var viewModel = {
     var city = this.getByName(city_name);
     var success = false
     var items = [];
+    var error_dom = '#header-error';
     var jsonq = $.getJSON( teleportUrl, function( data ) {
       score_list = data.categories;
       for (var i=0; i < score_list.length; i++){
@@ -94,11 +104,11 @@ var viewModel = {
         }
       }
     }).done(function() {
-      //city.push(items);
       city.score = items;
       return true;
     }).fail(function() {
-      console.log( "error" );
+      var text = "[Error!!] Error occured while retrieving the score data from Teleport."; 
+      headerError.eHeader(text);
       return false;
     });
   },

@@ -1,5 +1,6 @@
 $color_select: #B450E3;
 $color_sub: #999;
+$color_warning: #FD403E;
 $m_left: 10px;
 body{
   font-family: 'Helvetica', sans-serif;
@@ -38,4 +39,7 @@ li.cities-list{
 .i-score{
  font-size: 28px;
  margin: 10px $m_left;
+}
+.error{
+  color: $color_warning;
 }

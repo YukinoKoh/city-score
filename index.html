@@ -11,31 +11,36 @@
 <body>
   <div id="header" class="header">
     <h1>Let me know the city score</h1>
-    <p> Click city in map or the list below to find the city score provided by <a href="https://teleport.org/about-us/">Teleport</a>.</p>
+    <p> Click the city in the map or in the list below to find the city score provided by <a href="https://teleport.org/about-us/">Teleport</a>.</p>
+    <div data-bind="text: headerError.eHeader" class="error"></div>
+    <div data-bind="text: headerError.eMap" class="error"></div>
+    <div id="map" class="map-frame"></div>
   </div>
-  <div id="map" class="map-frame"></div>
+
   <div id="filter" class="filter-frame">
-  <input type="text" id="input" onkeyup="filter()" placeholder="Search for names..">
+  <!-- <input type="text" id="input" onkeyup="filter()" placeholder="Search for names..">-->
+    <input type="text" data-bind="textInput: filterCity.fCity" onkeyup="filter()" placeholder="Search for names..">
+    <div data-bind="text: filterCity.error" class="error"></div>
   </div>
   
-  <div><ul data-bind="foreach: cityModel" class="cities-frame">
-    <li data-bind="text: name, visible: showCity, click: clickCity"></li>
-  </ul></div>
+  <div id="cities">
+    <div><ul data-bind="foreach: cityModel" class="cities-frame">
+      <li data-bind="text: name, visible: showCity, click: clickCity"></li>
+    </ul></div>
 
-  <div id="info-found"></div>
-  <div data-bind="foreach: cityModel">
+    <div data-bind="foreach: cityModel">
       <div data-bind="visible: showInfo">
         <div data-bind="text: name" class="i-name"></div>
         Housing score: <div data-bind="text: housing" class="i-score"></div>
         Education score: <div data-bind="text: education" class="i-score"></div>
       </div>
+    </div>
   </div> 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJOdsbkDgCk7AoQqpaAbdPdgGhoaWpSvI" sync defer></script>
   <script src="js/knockout-4.3.2.js"></script>
   <script src="js/model.js"></script>
-  <script src="js/view.js"></script>
-  <script src="js/app.js"></script>
-
+  <script src="js/view.js" async defer></script>
+  <script src="js/app.js" sync></script>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&callback=initialize&key=AIzaSyCJOdsbkDgCk7AoQqpaAbdPdgGhoaWpSvI" onerror="errorMap()" async defer></script>
 </body>
 </html>
 

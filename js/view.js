@@ -1,3 +1,5 @@
+var filterCity = filterCity || {};
+var headerError = headerError || {};
 var vm = vm || {};
 var markers = markers || [];
 
@@ -12,6 +14,7 @@ var view = {
     return map;
   },
   setAll: function(){
+    this.map();
     var cities = viewModel.getAll();
     this.setMarkers(cities);
   },
@@ -36,18 +39,20 @@ var view = {
         });
       }());
     }
-  }
+  },
 }
 
+function initialize(){
+  view.map();
+  view.setAll();
+}
 function filter(){
-  $('#info-name').empty();
-  $('#info-data').empty();
-  var input = document.getElementById("input");
-  var filter = input.value.toLowerCase();
+  var input = filterCity.fCity(); 
+  var filter = input.toLowerCase();
   var found = 0;
+  var error_dom = '#info-error';
   for (var i=0; i<markers.length; i++){
     var title = markers[i].title.toLowerCase();
-    var list_city = document.getElementById(title);
     // match with the filter
     if (title.indexOf(filter) > -1){
       viewModel.show(title);
@@ -58,11 +63,17 @@ function filter(){
       markers[i].setVisible(false);
     }
   }
+  var text = '';
   if (found == 0){
-    var text = 'No city is found with your search';
-    $('#info-found').empty(); 
-    $('#info-found').append(text);
+    text += 'No city is found with your search';
+    filterCity.error(text);
   } else {
-    $('#info-found').empty(); 
+    filterCity.error(' ');
   }
 }
+function errorMap(){
+  var text = "[Error!!] Error occured while rendering the map";
+  console.log('errorMap trigger');
+  headerError.eMap(text);
+}
+
