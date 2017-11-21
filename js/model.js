@@ -70,9 +70,9 @@ var viewModel = {
     return cityModel;
   },
   selectCity: function(name){
-    var city_name = name.toLowerCase();
+    var cityName = name.toLowerCase();
     this.deleteInfo();
-    var city = this.getByName(city_name);
+    var city = this.getByName(cityName);
     change_marker(city.name);
     city.showInfo(true);
   },

@@ -50,7 +50,6 @@ function filter(){
   var input = filterCity.fCity(); 
   var filter = input.toLowerCase();
   var found = 0;
-  var error_dom = '#info-error';
   for (var i=0; i<markers.length; i++){
     var title = markers[i].title.toLowerCase();
     // match with the filter
@@ -73,7 +72,6 @@ function filter(){
 }
 function errorMap(){
   var text = "[Error!!] Error occured while rendering the map";
-  console.log('errorMap trigger');
   headerError.eMap(text);
 }
 
